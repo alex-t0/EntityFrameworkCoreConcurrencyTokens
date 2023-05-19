@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApp.Db;
 
-[Table("AwesomeEntity")]
+[Table("AwesomeEntity", Schema = "dbo")]
 public class DbAwesomeEntity
 {
     [Key]
@@ -12,5 +12,8 @@ public class DbAwesomeEntity
     public string Name { get; set; }
     
     [Timestamp]
-    public uint Timestamp { get; set; }
+    public uint Xmin { get; set; }
+    
+    [Timestamp]
+    public byte[] Timestamp { get; set; }
 }

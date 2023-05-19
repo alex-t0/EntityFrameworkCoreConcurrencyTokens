@@ -10,10 +10,18 @@ public class AwesomeDbContext : DbContext
     }
     
     public DbSet<DbAwesomeEntity> AwesomeEntities { get; set; }
-    
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        optionsBuilder.UseSqlServer(
-            @"Server=(localdb)\mssqllocaldb;Database=Blogging;Trusted_Connection=True");
-    }*/
+        base.OnModelCreating(modelBuilder);
+        
+        if (Database.IsSqlServer())
+        {
+            modelBuilder.Entity<DbAwesomeEntity>().Ignore(b => b.Xmin);
+        }
+        else if (Database.IsNpgsql())
+        {
+            modelBuilder.Entity<DbAwesomeEntity>().Ignore(b => b.Timestamp);
+        }
+    }
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApp.Db;
 using WebApp.Models;
 
@@ -37,14 +38,30 @@ public class AwesomeController : Controller
         return Redirect("/Awesome/");
     }
     
-    public IActionResult Update()
+    public IActionResult Update(Guid uid)
     {
-        return View("Create");
+        var dbEntity = _db.Find<DbAwesomeEntity>(uid);
+        var entity = new AwesomeEntity();
+        entity.MapFrom(dbEntity);
+        return View("Update", entity);
     }
     
     [HttpPost]
     public IActionResult Save(AwesomeEntity entity)
     {
+        var dbEntity = _db.Find<DbAwesomeEntity>(entity.Uid);
+        entity.MapTo(dbEntity);
+
+        if (_db.Database.IsSqlServer())
+        {
+            _db.Entry(dbEntity).OriginalValues["Timestamp"] = dbEntity.Timestamp;            
+        }
+        else if (_db.Database.IsNpgsql())
+        {
+            _db.Entry(dbEntity).OriginalValues["Xmin"] = dbEntity.Xmin;    
+        }
+        
+        _db.SaveChanges();
         return Redirect("/Awesome/");
     }
 }
