@@ -16,7 +16,8 @@ public class AwesomeController : Controller
     
     public IActionResult Index()
     {
-        return View();
+        var model = _db.AwesomeEntities.ToList().Select(x => new AwesomeEntity().MapFrom(x)).ToArray();
+        return View(model);
     }
 
     public IActionResult Create()

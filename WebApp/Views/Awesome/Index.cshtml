@@ -1,3 +1,10 @@
-@model WebApp.Db.DbAwesomeEntity
+@model WebApp.Models.AwesomeEntity[]
+
+<ul>
+    @foreach (var entity in @Model)
+    {
+        <li><a href="/Awesome/Update?uid=@entity.Uid">@entity.Name</a></li>
+    } 
+</ul>
 
 <a href="/Awesome/Create">Create new awesome entity</a>

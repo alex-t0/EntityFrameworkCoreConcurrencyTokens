@@ -12,19 +12,23 @@ public class AwesomeEntity
     
     public string Timestamp { get; set; }
 
-    public void MapTo(DbAwesomeEntity to)
+    public DbAwesomeEntity MapTo(DbAwesomeEntity to)
     {
         to.Uid = Uid;
         to.Name = Name;
         to.Timestamp = Timestamp == null ? null : Convert.FromBase64String(Timestamp);
         to.Xmin = Xmin;
+        
+        return to;
     }
 
-    public void MapFrom(DbAwesomeEntity from)
+    public AwesomeEntity MapFrom(DbAwesomeEntity from)
     {
         Uid = from.Uid;
         Name = from.Name;
         Timestamp = from.Timestamp == null ? null : Convert.ToBase64String(from.Timestamp);
         Xmin = from.Xmin;
+
+        return this;
     }
 }
