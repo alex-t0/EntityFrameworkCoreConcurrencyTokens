@@ -55,11 +55,15 @@ public class AwesomeController : Controller
 
         if (_db.Database.IsSqlServer())
         {
-            _db.Entry(dbEntity).Property(p => p.Timestamp.Timestamp).OriginalValue = dbEntity.Timestamp.Timestamp;            
+            // _db.Entry(dbEntity).Property(p => p.Timestamp.Timestamp).OriginalValue = dbEntity.Timestamp.Timestamp;
+            _db.Entry(dbEntity).Reference(r => r.Timestamp).TargetEntry.Property(z => z.Timestamp).OriginalValue =
+                dbEntity.Timestamp.Timestamp;
         }
         else if (_db.Database.IsNpgsql())
         {
-            _db.Entry(dbEntity).Property(p => p.Timestamp.Xmin).OriginalValue = dbEntity.Timestamp.Xmin;    
+            // _db.Entry(dbEntity).Property(p => p.Timestamp.Xmin).OriginalValue = dbEntity.Timestamp.Xmin;
+            _db.Entry(dbEntity).Reference(r => r.Timestamp).TargetEntry.Property(z => z.Xmin).OriginalValue =
+                dbEntity.Timestamp.Xmin;
         }
         
         _db.SaveChanges();
