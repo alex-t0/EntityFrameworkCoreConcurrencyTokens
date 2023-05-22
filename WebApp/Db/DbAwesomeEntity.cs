@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebApp.Models;
 
 namespace WebApp.Db;
 
@@ -11,9 +12,5 @@ public class DbAwesomeEntity
     
     public string Name { get; set; }
     
-    [Timestamp]
-    public uint Xmin { get; set; }
-    
-    [Timestamp]
-    public byte[] Timestamp { get; set; }
+    public ComplexTimestamp Timestamp { get; set; }
 }

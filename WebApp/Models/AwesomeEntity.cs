@@ -16,9 +16,12 @@ public class AwesomeEntity
     {
         to.Uid = Uid;
         to.Name = Name;
-        to.Timestamp = Timestamp == null ? null : Convert.FromBase64String(Timestamp);
-        to.Xmin = Xmin;
-        
+        to.Timestamp = new ComplexTimestamp
+        {
+            Timestamp = Timestamp == null ? null : Convert.FromBase64String(Timestamp),
+            Xmin = Xmin
+        };
+
         return to;
     }
 
@@ -26,8 +29,12 @@ public class AwesomeEntity
     {
         Uid = from.Uid;
         Name = from.Name;
-        Timestamp = from.Timestamp == null ? null : Convert.ToBase64String(from.Timestamp);
-        Xmin = from.Xmin;
+
+        if (from.Timestamp != null)
+        {
+            Timestamp = from.Timestamp.Timestamp == null ? null : Convert.ToBase64String(from.Timestamp.Timestamp);
+            Xmin = from.Timestamp.Xmin;
+        }
 
         return this;
     }
