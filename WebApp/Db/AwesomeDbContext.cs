@@ -17,11 +17,15 @@ public class AwesomeDbContext : DbContext
         
         if (Database.IsSqlServer())
         {
-            modelBuilder.Entity<DbAwesomeEntity>().Ignore(b => b.Xmin);
+            // modelBuilder.Entity<DbAwesomeEntity>().Ignore(b => b.Xmin);
+            modelBuilder.Entity<DbAwesomeEntity>().Property(x => x.Timestamp).HasColumnName("Timestamp").HasColumnType("Timestamp");
         }
         else if (Database.IsNpgsql())
         {
-            modelBuilder.Entity<DbAwesomeEntity>().Ignore(b => b.Timestamp);
+            // modelBuilder.Entity<DbAwesomeEntity>().Ignore(b => b.Timestamp);
+            modelBuilder.Entity<DbAwesomeEntity>().Property(x => x.Timestamp)
+                .HasColumnName("xmin").HasColumnType("xid")
+                .HasConversion(to => (uint)to, from => (object) from);
         }
     }
 }

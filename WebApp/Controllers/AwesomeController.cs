@@ -59,7 +59,7 @@ public class AwesomeController : Controller
         }
         else if (_db.Database.IsNpgsql())
         {
-            _db.Entry(dbEntity).Property(p => p.Xmin).OriginalValue = dbEntity.Xmin;    
+            _db.Entry(dbEntity).Property(p => p.Timestamp).OriginalValue = dbEntity.Timestamp;    
         }
         
         _db.SaveChanges();
