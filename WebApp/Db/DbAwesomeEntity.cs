@@ -12,5 +12,5 @@ public class DbAwesomeEntity
     public string Name { get; set; }
     
     [Timestamp]
-    public object Timestamp { get; set; }
+    public byte[] Timestamp { get; set; }
 }
